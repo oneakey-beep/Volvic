@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Volvic">
+<meta name="theme-color" content="#0a0a0f">
+<title>Volvic Preise</title>
+<style>
+:root {
+  --bg:#0a0a0f; --s1:#13131a; --s2:#1c1c26;
+  --bd:rgba(255,255,255,0.07); --bd2:rgba(255,255,255,0.12);
+  --tx:#efefef; --mu:#666876; --fa:#2e2e3e;
+  --ac:#90C8F0; --ac-bg:rgba(144,200,240,0.07); --ac-bd:rgba(144,200,240,0.22);
+  --safe-t:env(safe-area-inset-top,0px); --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--tx);min-height:100vh}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;overscroll-behavior:none}
+.st{height:var(--safe-t);background:var(--bg)}
+header{padding:20px 18px 14px;border-bottom:1px solid var(--bd)}
+.hr{display:flex;align-items:center;gap:12px}
+.hr svg{width:28px;height:28px;flex-shrink:0}
+.ht h1{font-size:17px;font-weight:600;color:var(--tx);letter-spacing:-0.3px}
+.ht p{font-size:12px;color:var(--mu);margin-top:2px}
+.kw{font-size:11px;color:var(--ac);margin-top:10px}
+.sum{display:flex;gap:7px;padding:11px 14px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--bd)}
+.sum::-webkit-scrollbar{display:none}
+.pill{flex-shrink:0;background:var(--s2);border:1px solid var(--bd2);border-radius:20px;padding:5px 11px;font-size:12px;color:var(--mu);white-space:nowrap}
+.pill b{color:var(--ac);font-weight:600}
+.hint{margin:11px 13px 0;padding:10px 13px;background:var(--s1);border:1px solid var(--bd2);border-radius:12px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--mu);line-height:1.5}
+.hint span{flex:1} .hint b{color:var(--tx)}
+.hint button{background:none;border:none;color:var(--fa);font-size:16px;cursor:pointer;padding:0}
+.sl{font-size:11px;font-weight:600;color:var(--mu);letter-spacing:0.5px;text-transform:uppercase;padding:16px 14px 7px}
+.list{padding:0 11px calc(28px + var(--safe-b));display:flex;flex-direction:column;gap:6px}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:12px 13px;display:flex;align-items:center;gap:11px;opacity:0;animation:up 0.3s ease forwards}
+.card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.10s}
+.card:nth-child(3){animation-delay:.15s}.card:nth-child(4){animation-delay:.20s}
+.card:nth-child(5){animation-delay:.25s}.card:nth-child(6){animation-delay:.30s}
+.card:nth-child(7){animation-delay:.35s}.card:nth-child(8){animation-delay:.40s}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card.best{background:var(--ac-bg);border-color:var(--ac-bd)}
+.rk{font-size:12px;color:var(--fa);min-width:20px;text-align:center}
+.rk.top{font-size:17px;color:var(--ac)}
+.ico{width:34px;height:34px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:var(--s2);color:var(--mu);border:1px solid var(--bd2)}
+.card.best .ico{background:var(--ac-bg);color:var(--ac);border-color:var(--ac-bd)}
+.inf{flex:1;min-width:0}
+.nm{font-size:14px;font-weight:500;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ad{font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.di{font-size:12px;color:var(--mu);margin-top:1px}
+.bg{display:inline-block;margin-top:5px;font-size:11px;font-weight:500;padding:2px 7px;border-radius:5px;border:1px solid}
+.bb{color:var(--ac);border-color:var(--ac-bd);background:var(--ac-bg)}
+.br{color:#f87171;border-color:rgba(248,113,113,.28);background:rgba(248,113,113,.07)}
+.bg2{color:#6ee7b7;border-color:rgba(110,231,183,.28);background:rgba(110,231,183,.07)}
+.ri{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0}
+.pr{font-size:21px;font-weight:700;letter-spacing:-0.5px;color:var(--tx)}
+.card.best .pr{color:var(--ac)}
+.ps{font-size:11px;color:var(--mu);text-align:right;margin-top:-2px}
+.mb{display:inline-flex;align-items:center;gap:5px;background:var(--s2);border:1px solid var(--bd2);color:var(--ac);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:500;font-family:-apple-system,sans-serif;text-decoration:none;white-space:nowrap}
+.card.best .mb{background:var(--ac-bg);border-color:var(--ac-bd)}
+.mb:active{opacity:0.6}
+.mb svg{width:12px;height:12px}
+footer{text-align:center;font-size:11px;color:var(--fa);padding:14px 20px calc(14px + var(--safe-b));border-top:1px solid var(--bd);line-height:1.8}
+</style>
+</head>
+<body>
+<div class="st"></div>
+<header>
+  <div class="hr">
+    <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13 2C8 2 4 8 4 13.5C4 18.5 7.5 22 11 24L11 25L15 25L15 24C18.5 22 22 18.5 22 13.5C22 8 18 2 13 2Z" fill="#90C8F0" opacity="0.9"/>
+      <ellipse cx="10" cy="11" rx="2" ry="2.8" fill="white" opacity="0.2" transform="rotate(-20 10 11)"/>
+    </svg>
+    <div class="ht">
+      <h1>Volvic 1,5 L</h1>
+      <p>Preisvergleich &middot; Stuttgart</p>
+    </div>
+  </div>
+  <div class="kw" id="kw">KW 19 &middot; 10.05.2026</div>
+</header>
+
+<div class="sum">
+  <div class="pill">G&uuml;nstigster <b>0,59 &euro;</b></div>
+  <div class="pill">Teuerster <b>1,09 &euro;</b></div>
+  <div class="pill">Ersparnis <b>bis 0,50 &euro;</b></div>
+  <div class="pill">Angebote <b>4 aktiv</b></div>
+  <div class="pill">+ <b>0,25 &euro;</b> Pfand</div>
+</div>
+
+<div id="hint" class="hint">
+  <span><b>Zum Homescreen:</b> Teilen &rarr; &bdquo;Zum Home-Bildschirm&ldquo;</span>
+  <button onclick="document.getElementById('hint').style.display='none'">&#x2715;</button>
+</div>
+
+<div class="sl">G&uuml;nstigster &rarr; Teuerster</div>
+<div class="list" id="list"></div>
+
+<footer>
+  kaufda.de &middot; marktguru.de &middot; aktionspreis.de<br>
+  Preise k&ouml;nnen regional abweichen &middot; Ohne Gew&auml;hr
+</footer>
+
+<script>
+(function() {
+  var stores = [
+    {n:"E center Feuerbach", a:"Stuttgarter Str. 46-48", d:"4,6 km", p:59, pl:39, ab:"E", ba:"Angebot bis 16.05.", bc:"bb", m:"https://maps.apple.com/?q=E+center+Feuerbach&ll=48.810969,9.164044"},
+    {n:"Netto Marken-Discount", a:"Daimlerstr. 86, Bad Cannstatt", d:"4,3 km", p:66, pl:44, ab:"N", ba:"6er-Pack 3,99 EUR", bc:"bb", m:"https://maps.apple.com/?q=Netto+Daimlerstrasse+Stuttgart&ll=48.799938,9.219863"},
+    {n:"Penny", a:"Haussmannstr. 103", d:"1,4 km", p:79, pl:53, ab:"P", ba:"Letzter Tag heute!", bc:"br", m:"https://maps.apple.com/?q=Penny+Haussmannstrasse+Stuttgart&ll=48.785543,9.200022"},
+    {n:"Aldi Sued", a:"Sophienstr. 21", d:"0,7 km", p:85, pl:57, ab:"A", ba:"Dauertief", bc:"bg2", m:"https://maps.apple.com/?q=Aldi+Sued+Sophienstrasse+Stuttgart&ll=48.771909,9.173619"},
+    {n:"Lidl", a:"Blumenstr. 18-20", d:"0,5 km", p:89, pl:59, ab:"L", ba:null, bc:null, m:"https://maps.apple.com/?q=Lidl+Blumenstrasse+Stuttgart&ll=48.773257,9.185626"},
+    {n:"Rewe", a:"Kronenstr. 7, Mitte", d:"0,4 km", p:99, pl:66, ab:"R", ba:null, bc:null, m:"https://maps.apple.com/?q=Rewe+Kronenstrasse+Stuttgart&ll=48.782053,9.179573"},
+    {n:"Edeka", a:"Charlottenstr. 21A", d:"0,3 km", p:99, pl:66, ab:"E", ba:null, bc:null, m:"https://maps.apple.com/?q=Edeka+Charlottenstrasse+Stuttgart&ll=48.774560,9.186045"},
+    {n:"Kaufland", a:"Wildunger Str. 2-4, Bad Cannstatt", d:"4,5 km", p:109, pl:73, ab:"K", ba:null, bc:null, m:"https://maps.apple.com/?q=Kaufland+Stuttgart+Bad+Cannstatt&ll=48.801919,9.221811"}
+  ];
+
+  // Preise als ganze Cent-Zahlen gespeichert, Formatierung hier
+  function fmt(cents) {
+    var e = Math.floor(cents / 100);
+    var c = cents % 100;
+    return e + "," + (c < 10 ? "0" + c : c) + " \u20ac";
+  }
+  function fmtL(cents) {
+    var e = Math.floor(cents / 100);
+    var c = cents % 100;
+    return e + "," + (c < 10 ? "0" + c : c) + " \u20ac/L";
+  }
+
+  stores.sort(function(a, b) { return a.p - b.p; });
+  var minP = stores[0].p;
+  var top = ["\u2460", "\u2461", "\u2462"];
+  var pin = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+
+  var out = "";
+  for (var i = 0; i < stores.length; i++) {
+    var s = stores[i];
+    var best = s.p === minP;
+    var rk = i < 3 ? top[i] : (i + 1);
+    out += '<div class="card' + (best ? " best" : "") + '">';
+    out += '<div class="rk' + (i < 3 ? " top" : "") + '">' + rk + '</div>';
+    out += '<div class="ico">' + s.ab + '</div>';
+    out += '<div class="inf">';
+    out += '<div class="nm">' + s.n + '</div>';
+    out += '<div class="ad">' + s.a + '</div>';
+    out += '<div class="di">\u2194 ' + s.d + '</div>';
+    if (s.ba) out += '<div class="bg ' + s.bc + '">' + s.ba + '</div>';
+    out += '</div>';
+    out += '<div class="ri">';
+    out += '<div><div class="pr">' + fmt(s.p) + '</div><div class="ps">' + fmtL(s.pl) + '</div></div>';
+    out += '<a class="mb" href="' + s.m + '">' + pin + ' Maps</a>';
+    out += '</div></div>';
+  }
+  document.getElementById("list").innerHTML = out;
+
+  var now = new Date();
+  var y = now.getFullYear();
+  var start = new Date(y, 0, 1);
+  var kw = Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
+  var dd = String(now.getDate()).padStart(2, "0");
+  var mm = String(now.getMonth() + 1).padStart(2, "0");
+  document.getElementById("kw").textContent = "KW " + kw + " \u00b7 " + dd + "." + mm + "." + y;
+
+  if (window.navigator.standalone) {
+    document.getElementById("hint").style.display = "none";
+  }
+})();
+</script>
+</body>
+</html>
