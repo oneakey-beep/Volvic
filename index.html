@@ -23,7 +23,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;overscroll-behavior
 .st{height:var(--safe-t);background:var(--bg)}
 header{padding:20px 18px 14px;border-bottom:1px solid var(--bd)}
 .hr{display:flex;align-items:center;gap:12px}
-.hr svg{width:28px;height:28px;flex-shrink:0}
+.hr svg.drop{width:28px;height:28px;flex-shrink:0}
 .ht h1{font-size:17px;font-weight:600;color:var(--tx);letter-spacing:-0.3px}
 .ht p{font-size:12px;color:var(--mu);margin-top:2px}
 .kw{font-size:11px;color:var(--ac);margin-top:10px}
@@ -31,33 +31,42 @@ header{padding:20px 18px 14px;border-bottom:1px solid var(--bd)}
 .sum::-webkit-scrollbar{display:none}
 .pill{flex-shrink:0;background:var(--s2);border:1px solid var(--bd2);border-radius:20px;padding:5px 11px;font-size:12px;color:var(--mu);white-space:nowrap}
 .pill b{color:var(--ac);font-weight:600}
-.sl{font-size:11px;font-weight:600;color:var(--mu);letter-spacing:0.5px;text-transform:uppercase;padding:16px 14px 7px}
+.loc-bar{padding:12px 14px;border-bottom:1px solid var(--bd)}
+.loc-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--ac);color:#0a0a0f;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:600;font-family:-apple-system,sans-serif;cursor:pointer;transition:opacity 0.15s}
+.loc-btn:active{opacity:0.75}
+.loc-btn svg{width:16px;height:16px;flex-shrink:0}
+.loc-btn.loading{opacity:0.6}
+.loc-status{font-size:12px;color:var(--mu);text-align:center;margin-top:8px;min-height:16px}
+.loc-status.ok{color:var(--ac)}
+.loc-status.err{color:#f87171}
+.sl{font-size:11px;font-weight:600;color:var(--mu);letter-spacing:0.5px;text-transform:uppercase;padding:16px 14px 7px;display:flex;justify-content:space-between;align-items:center}
+.sl span{font-size:11px;color:var(--mu);font-weight:400;text-transform:none;letter-spacing:0}
 .list{padding:0 11px calc(28px + var(--safe-b));display:flex;flex-direction:column;gap:6px}
 .card{background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:12px 13px;display:flex;align-items:center;gap:11px;position:relative}
 .card.best{background:var(--ac-bg);border-color:var(--ac-bd)}
 .ribbon{position:absolute;top:-1px;left:13px;background:var(--ac);color:#0a0a0f;font-size:10px;font-weight:700;padding:2px 8px;border-radius:0 0 6px 6px;letter-spacing:0.3px}
-.rk{font-size:12px;color:var(--fa);min-width:20px;text-align:center;margin-top:0}
+.rk{font-size:12px;color:var(--fa);min-width:20px;text-align:center}
 .rk.top{font-size:17px;color:var(--ac)}
-.card.best .rk{margin-top:12px}
+.card.best .rk,.card.best .ico,.card.best .inf,.card.best .ri{margin-top:12px}
 .ico{width:34px;height:34px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;background:var(--s2);color:var(--mu);border:1px solid var(--bd2)}
-.card.best .ico{background:var(--ac-bg);color:var(--ac);border-color:var(--ac-bd);margin-top:12px}
+.card.best .ico{background:var(--ac-bg);color:var(--ac);border-color:var(--ac-bd)}
 .inf{flex:1;min-width:0}
-.card.best .inf{margin-top:12px}
 .nm{font-size:14px;font-weight:500;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ad{font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
 .di{font-size:12px;color:var(--mu);margin-top:1px}
+.di b{color:var(--tx)}
 .bg{display:inline-block;margin-top:5px;font-size:11px;font-weight:500;padding:2px 7px;border-radius:5px;border:1px solid}
 .bb{color:var(--ac);border-color:var(--ac-bd);background:var(--ac-bg)}
 .br{color:#f87171;border-color:rgba(248,113,113,.28);background:rgba(248,113,113,.07)}
 .bg2{color:#6ee7b7;border-color:rgba(110,231,183,.28);background:rgba(110,231,183,.07)}
 .ri{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0}
-.card.best .ri{margin-top:12px}
 .pr{font-size:21px;font-weight:700;letter-spacing:-0.5px;color:var(--tx)}
 .card.best .pr{color:var(--ac)}
 .ps{font-size:11px;color:var(--mu);text-align:right;margin-top:-2px}
 .mb{display:inline-flex;align-items:center;gap:5px;background:var(--s2);border:1px solid var(--bd2);color:var(--ac);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:500;font-family:-apple-system,sans-serif;text-decoration:none;white-space:nowrap}
 .card.best .mb{background:var(--ac-bg);border-color:var(--ac-bd)}
 .mb svg{width:12px;height:12px}
+.none-msg{display:none;text-align:center;padding:32px 20px;color:var(--mu);font-size:14px}
 footer{text-align:center;font-size:11px;color:var(--fa);padding:14px 20px calc(14px + var(--safe-b));border-top:1px solid var(--bd);line-height:1.8}
 </style>
 </head>
@@ -65,7 +74,7 @@ footer{text-align:center;font-size:11px;color:var(--fa);padding:14px 20px calc(1
 <div class="st"></div>
 <header>
   <div class="hr">
-    <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class="drop" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M13 2C8 2 4 8 4 13.5C4 18.5 7.5 22 11 24L11 25L15 25L15 24C18.5 22 22 18.5 22 13.5C22 8 18 2 13 2Z" fill="#90C8F0" opacity="0.9"/>
       <ellipse cx="10" cy="11" rx="2" ry="2.8" fill="white" opacity="0.2" transform="rotate(-20 10 11)"/>
     </svg>
@@ -74,7 +83,7 @@ footer{text-align:center;font-size:11px;color:var(--fa);padding:14px 20px calc(1
       <p>Preisvergleich &middot; Stuttgart</p>
     </div>
   </div>
-  <div class="kw">KW 19 &middot; 10.05.2026</div>
+  <div class="kw" id="kw">KW 19 &middot; 10.05.2026</div>
 </header>
 
 <div class="sum">
@@ -85,180 +94,128 @@ footer{text-align:center;font-size:11px;color:var(--fa);padding:14px 20px calc(1
   <div class="pill">+ <b>0,25 &euro;</b> Pfand</div>
 </div>
 
-<div class="sl">G&uuml;nstigster &rarr; Teuerster</div>
-
-<div class="list">
-
-<div class="card best">
-  <div class="ribbon">Bestes Angebot</div>
-  <div class="rk top">&#9312;</div>
-  <div class="ico">E</div>
-  <div class="inf">
-    <div class="nm">E center Feuerbach</div>
-    <div class="ad">Stuttgarter Str. 46-48</div>
-    <div class="di">&#8596; 4,6 km</div>
-    <div class="bg bb">Angebot bis 16.05.</div>
-  </div>
-  <div class="ri">
-    <div>
-      <div class="pr">0,59 &#8364;</div>
-      <div class="ps">0,39 &#8364;/L</div>
-    </div>
-    <a class="mb" href="https://www.google.com/maps/search/?api=1&query=E+center+Feuerbach+Stuttgart" target="_blank">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Maps
-    </a>
-  </div>
+<div class="loc-bar">
+  <button class="loc-btn" id="loc-btn" onclick="findLocation()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+    </svg>
+    Meinen Standort ermitteln
+  </button>
+  <div class="loc-status" id="loc-status"></div>
 </div>
 
-<div class="card">
-  <div class="rk top">&#9313;</div>
-  <div class="ico">N</div>
-  <div class="inf">
-    <div class="nm">Netto Marken-Discount</div>
-    <div class="ad">Daimlerstr. 86, Bad Cannstatt</div>
-    <div class="di">&#8596; 4,3 km</div>
-    <div class="bg bb">6er-Pack 3,99 EUR</div>
-  </div>
-  <div class="ri">
-    <div>
-      <div class="pr">0,66 &#8364;</div>
-      <div class="ps">0,44 &#8364;/L</div>
-    </div>
-    <a class="mb" href="https://www.google.com/maps/search/?api=1&query=Netto+Daimlerstrasse+86+Stuttgart" target="_blank">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Maps
-    </a>
-  </div>
+<div class="sl">
+  G&uuml;nstigster &rarr; Teuerster
+  <span id="filter-info"></span>
 </div>
 
-<div class="card">
-  <div class="rk top">&#9314;</div>
-  <div class="ico">P</div>
-  <div class="inf">
-    <div class="nm">Penny</div>
-    <div class="ad">Haussmannstr. 103</div>
-    <div class="di">&#8596; 1,4 km</div>
-    <div class="bg br">Letzter Tag heute!</div>
-  </div>
-  <div class="ri">
-    <div>
-      <div class="pr">0,79 &#8364;</div>
-      <div class="ps">0,53 &#8364;/L</div>
-    </div>
-    <a class="mb" href="https://www.google.com/maps/search/?api=1&query=Penny+Haussmannstrasse+103+Stuttgart" target="_blank">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Maps
-    </a>
-  </div>
-</div>
-
-<div class="card">
-  <div class="rk">4.</div>
-  <div class="ico">A</div>
-  <div class="inf">
-    <div class="nm">Aldi S&uuml;d</div>
-    <div class="ad">Sophienstr. 21</div>
-    <div class="di">&#8596; 0,7 km</div>
-    <div class="bg bg2">Dauertief</div>
-  </div>
-  <div class="ri">
-    <div>
-      <div class="pr">0,85 &#8364;</div>
-      <div class="ps">0,57 &#8364;/L</div>
-    </div>
-    <a class="mb" href="https://www.google.com/maps/search/?api=1&query=Aldi+Sued+Sophienstrasse+21+Stuttgart" target="_blank">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Maps
-    </a>
-  </div>
-</div>
-
-<div class="card">
-  <div class="rk">5.</div>
-  <div class="ico">L</div>
-  <div class="inf">
-    <div class="nm">Lidl</div>
-    <div class="ad">Blumenstr. 18-20</div>
-    <div class="di">&#8596; 0,5 km</div>
-  </div>
-  <div class="ri">
-    <div>
-      <div class="pr">0,89 &#8364;</div>
-      <div class="ps">0,59 &#8364;/L</div>
-    </div>
-    <a class="mb" href="https://www.google.com/maps/search/?api=1&query=Lidl+Blumenstrasse+18+Stuttgart" target="_blank">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Maps
-    </a>
-  </div>
-</div>
-
-<div class="card">
-  <div class="rk">6.</div>
-  <div class="ico">R</div>
-  <div class="inf">
-    <div class="nm">Rewe</div>
-    <div class="ad">Kronenstr. 7, Mitte</div>
-    <div class="di">&#8596; 0,4 km</div>
-  </div>
-  <div class="ri">
-    <div>
-      <div class="pr">0,99 &#8364;</div>
-      <div class="ps">0,66 &#8364;/L</div>
-    </div>
-    <a class="mb" href="https://www.google.com/maps/search/?api=1&query=Rewe+Kronenstrasse+7+Stuttgart" target="_blank">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Maps
-    </a>
-  </div>
-</div>
-
-<div class="card">
-  <div class="rk">7.</div>
-  <div class="ico">E</div>
-  <div class="inf">
-    <div class="nm">Edeka</div>
-    <div class="ad">Charlottenstr. 21A</div>
-    <div class="di">&#8596; 0,3 km</div>
-  </div>
-  <div class="ri">
-    <div>
-      <div class="pr">0,99 &#8364;</div>
-      <div class="ps">0,66 &#8364;/L</div>
-    </div>
-    <a class="mb" href="https://www.google.com/maps/search/?api=1&query=Edeka+Charlottenstrasse+21+Stuttgart" target="_blank">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Maps
-    </a>
-  </div>
-</div>
-
-<div class="card">
-  <div class="rk">8.</div>
-  <div class="ico">K</div>
-  <div class="inf">
-    <div class="nm">Kaufland</div>
-    <div class="ad">Wildunger Str. 2-4, Bad Cannstatt</div>
-    <div class="di">&#8596; 4,5 km</div>
-  </div>
-  <div class="ri">
-    <div>
-      <div class="pr">1,09 &#8364;</div>
-      <div class="ps">0,73 &#8364;/L</div>
-    </div>
-    <a class="mb" href="https://www.google.com/maps/search/?api=1&query=Kaufland+Wildunger+Strasse+Stuttgart" target="_blank">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-      Maps
-    </a>
-  </div>
-</div>
-
-</div>
+<div class="list" id="list"></div>
+<div class="none-msg" id="none-msg">Keine M&auml;rkte im Umkreis von 50 km gefunden.</div>
 
 <footer>
   kaufda.de &middot; marktguru.de &middot; aktionspreis.de<br>
   Preise k&ouml;nnen regional abweichen &middot; Ohne Gew&auml;hr
 </footer>
+
+<script>
+var stores = [
+  {n:"E center Feuerbach", a:"Stuttgarter Str. 46-48", p:59, pl:39, ab:"E", ba:"Angebot bis 16.05.", bc:"bb", lat:48.810969, lng:9.164044},
+  {n:"Netto Marken-Discount", a:"Daimlerstr. 86, Bad Cannstatt", p:66, pl:44, ab:"N", ba:"6er-Pack 3,99 EUR", bc:"bb", lat:48.799938, lng:9.219863},
+  {n:"Penny", a:"Haussmannstr. 103", p:79, pl:53, ab:"P", ba:"Letzter Tag heute!", bc:"br", lat:48.785543, lng:9.200022},
+  {n:"Aldi S\u00fcd", a:"Sophienstr. 21", p:85, pl:57, ab:"A", ba:"Dauertief", bc:"bg2", lat:48.771909, lng:9.173619},
+  {n:"Lidl", a:"Blumenstr. 18-20", p:89, pl:59, ab:"L", ba:null, bc:null, lat:48.773257, lng:9.185626},
+  {n:"Rewe", a:"Kronenstr. 7, Mitte", p:99, pl:66, ab:"R", ba:null, bc:null, lat:48.782053, lng:9.179573},
+  {n:"Edeka", a:"Charlottenstr. 21A", p:99, pl:66, ab:"E", ba:null, bc:null, lat:48.774560, lng:9.186045},
+  {n:"Kaufland", a:"Wildunger Str. 2-4, Bad Cannstatt", p:109, pl:73, ab:"K", ba:null, bc:null, lat:48.801919, lng:9.221811}
+];
+
+var userLat = null;
+var userLng = null;
+var RADIUS = 50;
+
+function haversine(lat1, lng1, lat2, lng2) {
+  var R = 6371;
+  var dLat = (lat2-lat1)*Math.PI/180;
+  var dLng = (lng2-lng1)*Math.PI/180;
+  var a = Math.sin(dLat/2)*Math.sin(dLat/2)+
+          Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
+          Math.sin(dLng/2)*Math.sin(dLng/2);
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+function fmt(c){var e=Math.floor(c/100),r=c%100;return e+","+(r<10?"0"+r:r)+" \u20ac";}
+function fmtL(c){var e=Math.floor(c/100),r=c%100;return e+","+(r<10?"0"+r:r)+" \u20ac/L";}
+function fmtDist(km){if(km<1)return Math.round(km*1000)+" m";return km.toFixed(1).replace(".",",")+" km";}
+
+var pin='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>';
+
+function renderList(withLocation) {
+  var list=document.getElementById("list");
+  var noneMsg=document.getElementById("none-msg");
+  var filterInfo=document.getElementById("filter-info");
+  var filtered=[];
+  for(var i=0;i<stores.length;i++){
+    var s=stores[i];
+    var dist=null;
+    if(withLocation){dist=haversine(userLat,userLng,s.lat,s.lng);if(dist>RADIUS)continue;}
+    filtered.push({s:s,dist:dist});
+  }
+  filtered.sort(function(a,b){return a.s.p-b.s.p;});
+  if(filtered.length===0){list.innerHTML="";noneMsg.style.display="block";filterInfo.textContent="0 M\u00e4rkte in 50 km";return;}
+  noneMsg.style.display="none";
+  filterInfo.textContent=withLocation?filtered.length+" M\u00e4rkte in 50 km":"";
+  var minP=filtered[0].s.p;
+  var tops=["\u2460","\u2461","\u2462"];
+  var out="";
+  for(var j=0;j<filtered.length;j++){
+    var item=filtered[j];var s=item.s;
+    var best=s.p===minP;
+    var rk=j<3?tops[j]:(j+1)+".";
+    var distStr=item.dist!==null?"<b>"+fmtDist(item.dist)+"</b> entfernt":"Stuttgart";
+    var mapsUrl="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(s.n+" "+s.a);
+    var badge=s.ba?'<div class="bg '+s.bc+'">'+s.ba+'</div>':"";
+    out+='<div class="card'+(best?" best":"")+'">'; 
+    if(best)out+='<div class="ribbon">Bestes Angebot</div>';
+    out+='<div class="rk'+(j<3?" top":"")+'">'+rk+'</div>';
+    out+='<div class="ico">'+s.ab+'</div>';
+    out+='<div class="inf"><div class="nm">'+s.n+'</div><div class="ad">'+s.a+'</div><div class="di">&#8596; '+distStr+'</div>'+badge+'</div>';
+    out+='<div class="ri"><div><div class="pr">'+fmt(s.p)+'</div><div class="ps">'+fmtL(s.pl)+'</div></div>';
+    out+='<a class="mb" href="'+mapsUrl+'" target="_blank">'+pin+' Maps</a></div></div>';
+  }
+  list.innerHTML=out;
+}
+
+function findLocation(){
+  var btn=document.getElementById("loc-btn");
+  var status=document.getElementById("loc-status");
+  if(!navigator.geolocation){status.className="loc-status err";status.textContent="GPS nicht verf\u00fcgbar.";return;}
+  btn.classList.add("loading");
+  btn.textContent="Standort wird ermittelt\u2026";
+  status.className="loc-status";status.textContent="";
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      userLat=pos.coords.latitude;userLng=pos.coords.longitude;
+      btn.classList.remove("loading");
+      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> Standort aktualisieren';
+      status.className="loc-status ok";
+      status.textContent="\u2713 Standort gefunden \u00b7 Radius 50 km";
+      renderList(true);
+    },
+    function(err){
+      btn.classList.remove("loading");
+      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> Meinen Standort ermitteln';
+      status.className="loc-status err";
+      status.textContent=err.code===1?"Zugriff verweigert \u2013 Standort in Einstellungen erlauben.":"Standort konnte nicht ermittelt werden.";
+    },
+    {enableHighAccuracy:true,timeout:10000,maximumAge:60000}
+  );
+}
+
+renderList(false);
+var now=new Date();var y=now.getFullYear();var start=new Date(y,0,1);
+var kw=Math.ceil(((now-start)/86400000+start.getDay()+1)/7);
+var dd=String(now.getDate()).padStart(2,"0");var mm=String(now.getMonth()+1).padStart(2,"0");
+document.getElementById("kw").textContent="KW "+kw+" \u00b7 "+dd+"."+mm+"."+y;
+</script>
 </body>
 </html>
