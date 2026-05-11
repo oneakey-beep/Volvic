@@ -35,7 +35,7 @@ header{padding:20px 18px 14px;border-bottom:1px solid var(--bd)}
 .loc-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--ac);color:#0a0a0f;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:600;font-family:-apple-system,sans-serif;cursor:pointer;transition:opacity 0.15s}
 .loc-btn:active{opacity:0.75}
 .loc-btn svg{width:16px;height:16px;flex-shrink:0}
-.loc-btn.loading{opacity:0.6}
+.loc-btn.loading{opacity:0.6;pointer-events:none}
 .loc-status{font-size:12px;color:var(--mu);text-align:center;margin-top:8px;min-height:16px}
 .loc-status.ok{color:var(--ac)}
 .loc-status.err{color:#f87171}
@@ -54,11 +54,8 @@ header{padding:20px 18px 14px;border-bottom:1px solid var(--bd)}
 .nm{font-size:14px;font-weight:500;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ad{font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
 .di{font-size:12px;color:var(--mu);margin-top:1px}
-.di b{color:var(--tx)}
-.bg{display:inline-block;margin-top:5px;font-size:11px;font-weight:500;padding:2px 7px;border-radius:5px;border:1px solid}
-.bb{color:var(--ac);border-color:var(--ac-bd);background:var(--ac-bg)}
-.br{color:#f87171;border-color:rgba(248,113,113,.28);background:rgba(248,113,113,.07)}
-.bg2{color:#6ee7b7;border-color:rgba(110,231,183,.28);background:rgba(110,231,183,.07)}
+.di b{color:var(--ac)}
+.pr-badge{display:inline-block;margin-top:4px;font-size:11px;font-weight:500;padding:2px 7px;border-radius:5px;border:1px solid;color:var(--ac);border-color:var(--ac-bd);background:var(--ac-bg)}
 .ri{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0}
 .pr{font-size:21px;font-weight:700;letter-spacing:-0.5px;color:var(--tx)}
 .card.best .pr{color:var(--ac)}
@@ -66,7 +63,9 @@ header{padding:20px 18px 14px;border-bottom:1px solid var(--bd)}
 .mb{display:inline-flex;align-items:center;gap:5px;background:var(--s2);border:1px solid var(--bd2);color:var(--ac);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:500;font-family:-apple-system,sans-serif;text-decoration:none;white-space:nowrap}
 .card.best .mb{background:var(--ac-bg);border-color:var(--ac-bd)}
 .mb svg{width:12px;height:12px}
-.none-msg{display:none;text-align:center;padding:32px 20px;color:var(--mu);font-size:14px}
+.empty{display:none;text-align:center;padding:40px 20px;color:var(--mu);font-size:14px;line-height:1.7}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(144,200,240,0.3);border-top-color:var(--ac);border-radius:50%;animation:spin 0.7s linear infinite;margin-right:6px;vertical-align:-2px}
+@keyframes spin{to{transform:rotate(360deg)}}
 footer{text-align:center;font-size:11px;color:var(--fa);padding:14px 20px calc(14px + var(--safe-b));border-top:1px solid var(--bd);line-height:1.8}
 </style>
 </head>
@@ -80,17 +79,17 @@ footer{text-align:center;font-size:11px;color:var(--fa);padding:14px 20px calc(1
     </svg>
     <div class="ht">
       <h1>Volvic 1,5 L</h1>
-      <p>Preisvergleich &middot; Stuttgart</p>
+      <p>Preisvergleich &middot; <span id="city">Deutschland</span></p>
     </div>
   </div>
-  <div class="kw" id="kw">KW 19 &middot; 10.05.2026</div>
+  <div class="kw" id="kw">Stand 10.05.2026</div>
 </header>
 
 <div class="sum">
-  <div class="pill">G&uuml;nstigster <b>0,59 &euro;</b></div>
-  <div class="pill">Teuerster <b>1,09 &euro;</b></div>
-  <div class="pill">Ersparnis <b>bis 0,50 &euro;</b></div>
-  <div class="pill">Angebote <b>4 aktiv</b></div>
+  <div class="pill">G&uuml;nstigster <b id="sum-min">-</b></div>
+  <div class="pill">Teuerster <b id="sum-max">-</b></div>
+  <div class="pill">M&auml;rkte <b id="sum-count">-</b></div>
+  <div class="pill">Radius <b>50 km</b></div>
   <div class="pill">+ <b>0,25 &euro;</b> Pfand</div>
 </div>
 
@@ -99,7 +98,7 @@ footer{text-align:center;font-size:11px;color:var(--fa);padding:14px 20px calc(1
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
     </svg>
-    Meinen Standort ermitteln
+    Standort &amp; M&auml;rkte in der N&auml;he finden
   </button>
   <div class="loc-status" id="loc-status"></div>
 </div>
@@ -110,112 +109,133 @@ footer{text-align:center;font-size:11px;color:var(--fa);padding:14px 20px calc(1
 </div>
 
 <div class="list" id="list"></div>
-<div class="none-msg" id="none-msg">Keine M&auml;rkte im Umkreis von 50 km gefunden.</div>
+<div class="empty" id="empty">
+  Keine Superm&auml;rkte im Umkreis von 50 km gefunden.<br>
+  <small>Bitte Standort freigeben und erneut versuchen.</small>
+</div>
 
 <footer>
-  kaufda.de &middot; marktguru.de &middot; aktionspreis.de<br>
+  Standorte: OpenStreetMap &middot; Preise: kaufda.de, marktguru.de<br>
   Preise k&ouml;nnen regional abweichen &middot; Ohne Gew&auml;hr
 </footer>
 
 <script>
-var stores = [
-  {n:"E center Feuerbach", a:"Stuttgarter Str. 46-48", p:59, pl:39, ab:"E", ba:"Angebot bis 16.05.", bc:"bb", lat:48.810969, lng:9.164044},
-  {n:"Netto Marken-Discount", a:"Daimlerstr. 86, Bad Cannstatt", p:66, pl:44, ab:"N", ba:"6er-Pack 3,99 EUR", bc:"bb", lat:48.799938, lng:9.219863},
-  {n:"Penny", a:"Haussmannstr. 103", p:79, pl:53, ab:"P", ba:"Letzter Tag heute!", bc:"br", lat:48.785543, lng:9.200022},
-  {n:"Aldi S\u00fcd", a:"Sophienstr. 21", p:85, pl:57, ab:"A", ba:"Dauertief", bc:"bg2", lat:48.771909, lng:9.173619},
-  {n:"Lidl", a:"Blumenstr. 18-20", p:89, pl:59, ab:"L", ba:null, bc:null, lat:48.773257, lng:9.185626},
-  {n:"Rewe", a:"Kronenstr. 7, Mitte", p:99, pl:66, ab:"R", ba:null, bc:null, lat:48.782053, lng:9.179573},
-  {n:"Edeka", a:"Charlottenstr. 21A", p:99, pl:66, ab:"E", ba:null, bc:null, lat:48.774560, lng:9.186045},
-  {n:"Kaufland", a:"Wildunger Str. 2-4, Bad Cannstatt", p:109, pl:73, ab:"K", ba:null, bc:null, lat:48.801919, lng:9.221811}
-];
+var PRICES = {
+  "rewe":     {p:99,  pl:66, ba:null,               bc:null,  ab:"R"},
+  "edeka":    {p:99,  pl:66, ba:null,               bc:null,  ab:"E"},
+  "lidl":     {p:89,  pl:59, ba:null,               bc:null,  ab:"L"},
+  "aldi":     {p:85,  pl:57, ba:"Dauertief",        bc:"bg2", ab:"A"},
+  "penny":    {p:79,  pl:53, ba:"Angebot bis 16.05.",bc:"bb", ab:"P"},
+  "netto":    {p:66,  pl:44, ba:"6er-Pack 3,99 EUR", bc:"bb", ab:"N"},
+  "kaufland": {p:109, pl:73, ba:null,               bc:null,  ab:"K"},
+  "norma":    {p:79,  pl:53, ba:null,               bc:null,  ab:"No"},
+  "tegut":    {p:99,  pl:66, ba:null,               bc:null,  ab:"T"},
+  "globus":   {p:99,  pl:66, ba:null,               bc:null,  ab:"G"},
+  "spar":     {p:99,  pl:66, ba:null,               bc:null,  ab:"S"},
+  "dm":       {p:99,  pl:66, ba:null,               bc:null,  ab:"dm"},
+  "rossmann": {p:99,  pl:66, ba:null,               bc:null,  ab:"Ro"}
+};
 
-var userLat = null;
-var userLng = null;
-var RADIUS = 50;
+var RADIUS_M = 50000;
+var userLat, userLng;
 
-function haversine(lat1, lng1, lat2, lng2) {
-  var R = 6371;
-  var dLat = (lat2-lat1)*Math.PI/180;
-  var dLng = (lng2-lng1)*Math.PI/180;
-  var a = Math.sin(dLat/2)*Math.sin(dLat/2)+
-          Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*
-          Math.sin(dLng/2)*Math.sin(dLng/2);
-  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-}
-
+function haversine(la1,lo1,la2,lo2){var R=6371,dL=(la2-la1)*Math.PI/180,dO=(lo2-lo1)*Math.PI/180,a=Math.sin(dL/2)*Math.sin(dL/2)+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dO/2)*Math.sin(dO/2);return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
 function fmt(c){var e=Math.floor(c/100),r=c%100;return e+","+(r<10?"0"+r:r)+" \u20ac";}
 function fmtL(c){var e=Math.floor(c/100),r=c%100;return e+","+(r<10?"0"+r:r)+" \u20ac/L";}
 function fmtDist(km){if(km<1)return Math.round(km*1000)+" m";return km.toFixed(1).replace(".",",")+" km";}
 
 var pin='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>';
 
-function renderList(withLocation) {
-  var list=document.getElementById("list");
-  var noneMsg=document.getElementById("none-msg");
-  var filterInfo=document.getElementById("filter-info");
-  var filtered=[];
-  for(var i=0;i<stores.length;i++){
-    var s=stores[i];
-    var dist=null;
-    if(withLocation){dist=haversine(userLat,userLng,s.lat,s.lng);if(dist>RADIUS)continue;}
-    filtered.push({s:s,dist:dist});
+function getChain(tags){
+  var name=(tags.name||tags.brand||"").toLowerCase();
+  for(var k in PRICES){if(name.indexOf(k)>=0)return k;}
+  return null;
+}
+function setStatus(msg,cls){var el=document.getElementById("loc-status");el.className="loc-status"+(cls?" "+cls:"");el.innerHTML=msg;}
+function setBtn(html){document.getElementById("loc-btn").innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> '+html;}
+
+function fetchMarkets(){
+  setStatus('<span class="spinner"></span>Suche Superm\u00e4rkte via OpenStreetMap\u2026');
+  var q='[out:json][timeout:25];(node["shop"~"supermarket|discount"](around:'+RADIUS_M+','+userLat+','+userLng+');way["shop"~"supermarket|discount"](around:'+RADIUS_M+','+userLat+','+userLng+'););out center;';
+  fetch("https://overpass-api.de/api/interpreter?data="+encodeURIComponent(q))
+    .then(function(r){return r.json();})
+    .then(function(d){processMarkets(d.elements);})
+    .catch(function(){setStatus("Fehler \u2013 Bitte erneut versuchen.","err");setBtn("Erneut versuchen");document.getElementById("loc-btn").classList.remove("loading");});
+}
+
+function processMarkets(els){
+  var results=[],seen={};
+  for(var i=0;i<els.length;i++){
+    var el=els[i],tags=el.tags||{};
+    var lat=el.lat||(el.center&&el.center.lat);
+    var lng=el.lon||(el.center&&el.center.lon);
+    if(!lat||!lng) continue;
+    var chain=getChain(tags);
+    if(!chain) continue;
+    var addr=tags["addr:street"]?(tags["addr:street"]+(tags["addr:housenumber"]?" "+tags["addr:housenumber"]:"")):null;
+    var key=(tags.name||chain)+(addr||lat.toFixed(3));
+    if(seen[key]) continue;
+    seen[key]=true;
+    var info=PRICES[chain];
+    results.push({n:tags.name||(chain.charAt(0).toUpperCase()+chain.slice(1)),a:addr||"",dist:haversine(userLat,userLng,lat,lng),p:info.p,pl:info.pl,ba:info.ba,bc:info.bc,ab:info.ab});
   }
-  filtered.sort(function(a,b){return a.s.p-b.s.p;});
-  if(filtered.length===0){list.innerHTML="";noneMsg.style.display="block";filterInfo.textContent="0 M\u00e4rkte in 50 km";return;}
-  noneMsg.style.display="none";
-  filterInfo.textContent=withLocation?filtered.length+" M\u00e4rkte in 50 km":"";
-  var minP=filtered[0].s.p;
-  var tops=["\u2460","\u2461","\u2462"];
-  var out="";
-  for(var j=0;j<filtered.length;j++){
-    var item=filtered[j];var s=item.s;
-    var best=s.p===minP;
-    var rk=j<3?tops[j]:(j+1)+".";
-    var distStr=item.dist!==null?"<b>"+fmtDist(item.dist)+"</b> entfernt":"Stuttgart";
-    var mapsUrl="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(s.n+" "+s.a);
-    var badge=s.ba?'<div class="bg '+s.bc+'">'+s.ba+'</div>':"";
-    out+='<div class="card'+(best?" best":"")+'">'; 
-    if(best)out+='<div class="ribbon">Bestes Angebot</div>';
-    out+='<div class="rk'+(j<3?" top":"")+'">'+rk+'</div>';
-    out+='<div class="ico">'+s.ab+'</div>';
-    out+='<div class="inf"><div class="nm">'+s.n+'</div><div class="ad">'+s.a+'</div><div class="di">&#8596; '+distStr+'</div>'+badge+'</div>';
-    out+='<div class="ri"><div><div class="pr">'+fmt(s.p)+'</div><div class="ps">'+fmtL(s.pl)+'</div></div>';
-    out+='<a class="mb" href="'+mapsUrl+'" target="_blank">'+pin+' Maps</a></div></div>';
+  results.sort(function(a,b){return a.p-b.p;});
+  renderResults(results);
+}
+
+function renderResults(results){
+  document.getElementById("loc-btn").classList.remove("loading");
+  setBtn("Standort aktualisieren");
+  var list=document.getElementById("list"),empty=document.getElementById("empty");
+  if(!results.length){list.innerHTML="";empty.style.display="block";setStatus("Keine bekannten Ketten gefunden.","err");return;}
+  empty.style.display="none";
+  document.getElementById("filter-info").textContent=results.length+" M\u00e4rkte";
+  setStatus("\u2713 "+results.length+" M\u00e4rkte in 50 km gefunden","ok");
+  document.getElementById("sum-min").textContent=fmt(results[0].p);
+  document.getElementById("sum-max").textContent=fmt(results[results.length-1].p);
+  document.getElementById("sum-count").textContent=results.length;
+  var tops=["\u2460","\u2461","\u2462"],minP=results[0].p,out="";
+  for(var j=0;j<results.length;j++){
+    var s=results[j],best=s.p===minP,rk=j<3?tops[j]:(j+1)+".";
+    var badge=s.ba?'<div class="pr-badge">'+s.ba+'</div>':"";
+    out+='<div class="card'+(best?" best":"")+'">'+
+      (best?'<div class="ribbon">Bestes Angebot</div>':'')+
+      '<div class="rk'+(j<3?" top":"")+'">'+rk+'</div>'+
+      '<div class="ico">'+s.ab+'</div>'+
+      '<div class="inf"><div class="nm">'+s.n+'</div>'+
+      (s.a?'<div class="ad">'+s.a+'</div>':'')+
+      '<div class="di">&#8596; <b>'+fmtDist(s.dist)+'</b></div>'+badge+'</div>'+
+      '<div class="ri"><div><div class="pr">'+fmt(s.p)+'</div><div class="ps">'+fmtL(s.pl)+'</div></div>'+
+      '<a class="mb" href="https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.n+(s.a?" "+s.a:""))+'" target="_blank">'+pin+' Maps</a></div></div>';
   }
   list.innerHTML=out;
 }
 
 function findLocation(){
-  var btn=document.getElementById("loc-btn");
-  var status=document.getElementById("loc-status");
-  if(!navigator.geolocation){status.className="loc-status err";status.textContent="GPS nicht verf\u00fcgbar.";return;}
-  btn.classList.add("loading");
-  btn.textContent="Standort wird ermittelt\u2026";
-  status.className="loc-status";status.textContent="";
+  if(!navigator.geolocation){setStatus("GPS nicht verf\u00fcgbar.","err");return;}
+  document.getElementById("loc-btn").classList.add("loading");
+  setBtn("Standort wird ermittelt\u2026");
+  setStatus("");
   navigator.geolocation.getCurrentPosition(
     function(pos){
-      userLat=pos.coords.latitude;userLng=pos.coords.longitude;
-      btn.classList.remove("loading");
-      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> Standort aktualisieren';
-      status.className="loc-status ok";
-      status.textContent="\u2713 Standort gefunden \u00b7 Radius 50 km";
-      renderList(true);
+      userLat=pos.coords.latitude; userLng=pos.coords.longitude;
+      fetch("https://nominatim.openstreetmap.org/reverse?format=json&lat="+userLat+"&lon="+userLng)
+        .then(function(r){return r.json();})
+        .then(function(d){var c=d.address&&(d.address.city||d.address.town||d.address.village)||"deiner N\u00e4he";document.getElementById("city").textContent=c;})
+        .catch(function(){});
+      fetchMarkets();
     },
     function(err){
-      btn.classList.remove("loading");
-      btn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg> Meinen Standort ermitteln';
-      status.className="loc-status err";
-      status.textContent=err.code===1?"Zugriff verweigert \u2013 Standort in Einstellungen erlauben.":"Standort konnte nicht ermittelt werden.";
+      document.getElementById("loc-btn").classList.remove("loading");
+      setBtn("Standort &amp; M\u00e4rkte in der N\u00e4he finden");
+      setStatus(err.code===1?"Zugriff verweigert \u2013 Standort in Einstellungen erlauben.":"Standort konnte nicht ermittelt werden.","err");
     },
     {enableHighAccuracy:true,timeout:10000,maximumAge:60000}
   );
 }
 
-renderList(false);
-var now=new Date();var y=now.getFullYear();var start=new Date(y,0,1);
-var kw=Math.ceil(((now-start)/86400000+start.getDay()+1)/7);
-var dd=String(now.getDate()).padStart(2,"0");var mm=String(now.getMonth()+1).padStart(2,"0");
-document.getElementById("kw").textContent="KW "+kw+" \u00b7 "+dd+"."+mm+"."+y;
+var now=new Date(),dd=String(now.getDate()).padStart(2,"0"),mm=String(now.getMonth()+1).padStart(2,"0");
+document.getElementById("kw").textContent="Stand "+dd+"."+mm+"."+now.getFullYear();
 </script>
 </body>
 </html>
